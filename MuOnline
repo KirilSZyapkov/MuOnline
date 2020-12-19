@@ -1,0 +1,44 @@
+function muOnline(line) {
+    let myHealth = 100;
+    let myBitcoins = 0;
+    let dungeon = line.split(`|`);
+    let bestRoom = 0;
+    let isDead = false;
+
+    for (let a = 0; a < dungeon.length; a++) {
+        bestRoom++;
+        let [command, points] = dungeon[a].split(` `);
+        points = Number(points);
+        if (command === "potion") {
+            let curHealth = myHealth;
+            let add = 100 - curHealth;
+            myHealth += points
+            if (myHealth > 100) {
+                myHealth = 100;
+                console.log(`You healed for ${add} hp.`);
+            } else {
+                console.log(`You healed for ${points} hp.`);
+            }
+            console.log(`Current health: ${myHealth} hp.`);
+        } else if (command === "chest") {
+            myBitcoins += points;
+            console.log(`You found ${points} bitcoins.`);
+        } else {
+            myHealth -= points;
+            if (myHealth > 0) {
+                console.log(`You slayed ${command}.`);
+            } else {
+                console.log(`You died! Killed by ${command}.`);
+                isDead = true;
+                break;
+            }
+        }
+    }
+    if (isDead) {
+        console.log(`Best room: ${bestRoom}`);
+    } else {
+        console.log("You've made it!");
+        console.log(`Bitcoins: ${myBitcoins}`);
+        console.log(`Health: ${myHealth}`);
+    }
+}
